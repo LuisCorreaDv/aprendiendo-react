@@ -10,7 +10,7 @@ const Square = ({ children, isSelected, updateBoard, index }) => {
   const className = `square ${isSelected ? 'is-selected' : ""}`
 
   const handelClick = () => {
-    updateBoard()
+    updateBoard(index)
   }
   return <div onClick={handelClick} className={className}>
       {children}
@@ -22,7 +22,20 @@ function App() {
 
   const [turn, setTurn] = useState(TURNS.X);
 
-  const updateBoard = () => {
+  const updateBoard = (index) => {
+
+    //No actualizas la posicion si ya tiene algo 
+    if(board[index]) return
+
+    /*Hacer una copia del tablero para actualizarlo ya que no se debe mutar el estado directamente. 
+    Siempre deben ser nuevos los datos del renderizado
+    */
+   
+    const newBoard = [...board]
+    //Pasar el valor del turno a la opcion que seleccionó el usuario
+    newBoard[index] = turn
+    //Actualizar el tablero
+    setBoard(newBoard)
     //Cambiar el turno dependiendo del turno actual
     const newTurn = turn === TURNS.X ? TURNS.O : TURNS.X
     //Actualizar el turno
