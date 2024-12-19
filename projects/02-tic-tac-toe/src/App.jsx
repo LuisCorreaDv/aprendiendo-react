@@ -7,14 +7,17 @@ const TURNS = {
 };
 
 const Square = ({ children, isSelected, updateBoard, index }) => {
-  const className = `square ${isSelected ? 'is-selected' : ""}`
+  const className = `square ${isSelected ? "is-selected" : ""}`;
 
   const handelClick = () => {
-    updateBoard(index)
-  }
-  return <div onClick={handelClick} className={className}>
+    updateBoard(index);
+  };
+
+  return (
+    <div onClick={handelClick} className={className}>
       {children}
-    </div>;
+    </div>
+  );
 };
 
 const WINNER_COMBOS = [
@@ -54,56 +57,65 @@ function App() {
   }
 
   const updateBoard = (index) => {
-
-    //No actualizas la posicion si ya tiene algo 
-    if(board[index] || winner) return
+    //No actualizas la posicion si ya tiene algo
+    if (board[index] || winner) return;
 
     /*Hacer una copia del tablero para actualizarlo ya que no se debe mutar el estado directamente. 
     Siempre deben ser nuevos los datos del renderizado
     */
-    const newBoard = [...board]
+    const newBoard = [...board];
     //Pasar el valor del turno a la opcion que seleccionó el usuario
-    newBoard[index] = turn
+    newBoard[index] = turn;
     //Actualizar el tablero
-    setBoard(newBoard)
+    setBoard(newBoard);
     //Cambiar el turno dependiendo del turno actual
-    const newTurn = turn === TURNS.X ? TURNS.O : TURNS.X
+    const newTurn = turn === TURNS.X ? TURNS.O : TURNS.X;
     //Actualizar el turno
-    setTurn(newTurn)
+    setTurn(newTurn);
 
     //Revisar si hay un ganador
-    const newWinner = checkWinner(newBoard)
+    const newWinner = checkWinner(newBoard);
     if (newWinner) {
-      setWinner(newWinner)
-    }
+      setWinner(newWinner);
+    } //checar si el juego terminó
   }
 
   return (
     <main className="board">
       <h1>Tic tac toe</h1>
       <section className="game">
-        {
-          board.map((_, index) => {
-            return (
-              <Square
-                key={index}
-                index={index}
-                updateBoard={updateBoard}
-              >
-                {board[index]}
-              </Square>
-            )
-          })
-        }
+        {board.map((_, index) => {
+          return (
+            <Square key={index} index={index} updateBoard={updateBoard}>
+              {board[index]}
+            </Square>
+          );
+        })}
       </section>
 
       <section className="turn">
-        <Square isSelected={turn === TURNS.X}>
-          {TURNS.X}
-        </Square>
-        <Square isSelected={turn === TURNS.O}>
-          {TURNS.O}
-        </Square>
+        <Square isSelected={turn === TURNS.X}>{TURNS.X}</Square>
+        <Square isSelected={turn === TURNS.O}>{TURNS.O}</Square>
+      </section>
+
+      <section>
+        {winner != null && (
+          <section className="winner">
+            <div className="text">
+              <h2>{winner == false 
+                ? "Empate" 
+                : "Ganó"}
+              </h2>
+
+              <header className="win">
+                {winner && <Square>{winner}</Square>}
+              </header>
+              <footer>
+                <button>Empezar de nuevo</button>
+              </footer>
+            </div>
+          </section>
+        )}
       </section>
     </main>
   );
