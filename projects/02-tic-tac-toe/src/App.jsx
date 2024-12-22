@@ -6,6 +6,7 @@ const TURNS = {
   O: "o",
 };
 
+// eslint-disable-next-line react/prop-types
 const Square = ({ children, isSelected, updateBoard, index }) => {
   const className = `square ${isSelected ? "is-selected" : ""}`;
 
@@ -54,6 +55,12 @@ function App() {
     } 
     //No hay ganador
     return null
+  }
+
+  const resetGame = () => { 
+    setBoard(Array(9).fill(null))
+    setTurn(TURNS.X);
+    setWinner(null);
   }
 
   const updateBoard = (index) => {
@@ -111,7 +118,7 @@ function App() {
                 {winner && <Square>{winner}</Square>}
               </header>
               <footer>
-                <button>Empezar de nuevo</button>
+                <button onClick={resetGame}>Empezar de nuevo</button>
               </footer>
             </div>
           </section>
