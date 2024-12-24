@@ -18,6 +18,7 @@ function App() {
     }
 
     // Clean up effect 
+    //Cuando el componente se desmonta y cuando cambian las dependencias, antes de ejecutar el efecto de nuevo
     return () => {
       window.removeEventListener('pointermove', handleMove);
     }
