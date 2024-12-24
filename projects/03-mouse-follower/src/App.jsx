@@ -16,6 +16,12 @@ function App() {
     if(enabled) {
       window.addEventListener('pointermove', handleMove);
     }
+
+    // Clean up effect 
+    return () => {
+      window.removeEventListener('pointermove', handleMove);
+    }
+
   },[enabled])
 
   return (
