@@ -1,11 +1,22 @@
 import { useState, useEffect } from "react"
 
 function App() {
-  const [enable, setEnable] = useState(false);
+  const [enabled, setenabled] = useState(false);
+  const [position, setPosition] = useState({x:0, y:0});
 
   useEffect(() => {
-    console.log('effect', {enable});
-  },[enable])
+    console.log('effect', {enabled});
+
+    const handleMove = (event) => {
+      const { clientX, clientY } = event;
+      console.log('handleMove', {clientX, clientY});
+      setPosition({x: clientX, y: clientY}); 
+    }
+
+    if(enabled) {
+      window.addEventListener('pointermove', handleMove);
+    }
+  },[enabled])
 
   return (
     <main>
@@ -19,10 +30,10 @@ function App() {
         top: -20,
         width: 40,
         height: 40,
-        transform: 'translate(0px, 0px)',
+        transform: `translate(${position.x}px, ${position.y}px)`,
       }}/>
-      <button onClick={() => setEnable(!enable)}>
-        {enable ? 'Desactivar ' : 'Activar '}seguir puntero
+      <button onClick={() => setenabled(!enabled)}>
+        {enabled ? 'Desactivar ' : 'Activar '}seguir puntero
       </button>
     </main>
   )
