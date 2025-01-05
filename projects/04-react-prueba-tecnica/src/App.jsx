@@ -1,21 +1,35 @@
 import { useEffect, useState } from "react"
 
 const CAT_ENDPOINT_RANDOM_FACT = 'https://catfact.ninja/fact';
+//const CAT_ENDPOINT_IMAGE_URL = `https://cataas.com/cat/says/${threeFirstWords}?size=50&color=red&json=true`;
 
 export function App () {
 
     const [fact, setFact] = useState('Cat fact')
+    const [imageUrl, setImageUrl] = useState()
 
     //1) Fetch a la API de gatitos para obtener un hecho
     useEffect(() => {
         fetch(CAT_ENDPOINT_RANDOM_FACT)
-        .then(response => response.json())
-        .then(data => {
-            const fact = data
-            setFact(fact)
+            .then(response => response.json())
+            .then(data => {
+                const {fact} = data
+                setFact(fact)
 
-            const firstWord = fact.split(' ')[0]
-        })
+                //2)Recuperar las 3 primeras palabras del hecho 
+                const threeFirstWords = fact.split(' ',3).join(' ')
+                console.log(threeFirstWords);
+                
+                //3) Fetch a la API de gatitos para obtener la imagen
+                 fetch(`https://cataas.com/cat/says/${threeFirstWords}?size=50&color=red&json=true`)
+                     .then(response => response.json())
+                     .then(response => {
+                        console.log(response);
+                        const { _id } = response
+                        const url = `https://cataas.com/cat/${_id}/says/${threeFirstWords}?size=50&color=red`
+                         setImageUrl(url)
+                     })
+            })
     },[])
 
     return (
@@ -24,6 +38,7 @@ export function App () {
 
             {/* Renderizado condicional */}
             {fact && <p>{fact}</p>}
+            {imageUrl && <img src={imageUrl} alt={'Image extracted using the first three words of the fact obtained'} />}
         </main>
     )
 }
