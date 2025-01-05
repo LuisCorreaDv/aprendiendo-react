@@ -6,3 +6,9 @@ APIs a utilizar:
 - Image random: https://cataas.com/cat/says/hello
 
 Tarea: Recuperar un hecho aleatorio de gatos de la primera API y mostrar una imagen de un gato con la primera palabra del hecho recuperado usando la segunda API
+
+## Pasos: 
+
+1) Recuperar un hecho aleatorio de gatos de la primera API
+2) Recuperar la primer palabra del hecho 
+3) Mostrar una imagen de un gato con la primera palabra del hecho recuperado
