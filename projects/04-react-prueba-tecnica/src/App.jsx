@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import './App.css'
 
 const CAT_ENDPOINT_RANDOM_FACT = 'https://catfact.ninja/fact';
 //const CAT_ENDPOINT_IMAGE_URL = `https://cataas.com/cat/says/${threeFirstWords}?size=50&color=red&json=true`;
@@ -18,17 +19,16 @@ export function App () {
 
                 //2)Recuperar las 3 primeras palabras del hecho 
                 const threeFirstWords = fact.split(' ',3).join(' ')
-                console.log(threeFirstWords);
                 
                 //3) Fetch a la API de gatitos para obtener la imagen
                  fetch(`https://cataas.com/cat/says/${threeFirstWords}?size=50&color=red&json=true`)
                      .then(response => response.json())
                      .then(response => {
-                        console.log(response);
+                
                         const { _id } = response
                         const url = `https://cataas.com/cat/${_id}/says/${threeFirstWords}?size=50&color=red`
                          setImageUrl(url)
-                     })
+                    });
             })
     },[])
 
