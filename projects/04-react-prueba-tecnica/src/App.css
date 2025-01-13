@@ -7,3 +7,8 @@ main {
     margin: 0 auto;
     font-family: system-ui;
 }
+
+img{
+    max-width: 320px;
+    height: auto;
+}
