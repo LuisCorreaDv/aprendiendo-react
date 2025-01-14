@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react"
 import './App.css'
+import { getRandomFact } from './services/facts.js'
 
-const CAT_ENDPOINT_RANDOM_FACT = 'https://catfact.ninja/fact';
+
 //const CAT_ENDPOINT_IMAGE_URL = `https://cataas.com/cat/says/${threeFirstWords}?size=50&color=red&json=true`;
 
 export function App () {
@@ -9,17 +10,10 @@ export function App () {
     const [fact, setFact] = useState('Cat fact')
     const [imageUrl, setImageUrl] = useState()
 
-    const getRandomFact = () => {
-        fetch(CAT_ENDPOINT_RANDOM_FACT)
-        .then((response) => response.json())
-        .then((data) => {
-          const { fact } = data;
-          setFact(fact);
-        });
-    }
-
     //1) Fetch a la API de gatitos para obtener un hecho
-    useEffect(getRandomFact, []);
+    useEffect(() => {
+        getRandomFact().then(setFact);
+    },[]);
 
     useEffect(() => {
         if (!fact) return;
@@ -39,9 +33,10 @@ export function App () {
         });
     }, [fact]);
 
-    const handleClick = () => {
-        getRandomFact();;
-    }
+    const handleClick = async () => {
+        const newFact = await getRandomFact();
+        setFact(newFact);
+    };
 
     return (
         <main>
