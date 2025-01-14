@@ -1,20 +1,13 @@
-import { useEffect, useState } from "react"
 import './App.css'
-import { getRandomFact } from './services/facts.js'
 import { useCatImage } from './hooks/useCatImage.js'
+import { useCatFact } from './hooks/useCatFact.js'
 
 export function App() {
-  const [fact, setFact] = useState("Cat fact");
+  const { fact, refreshFact } = useCatFact();
   const { imageUrl } = useCatImage({ fact });
 
-  //1) Fetch a la API de gatitos para obtener un hecho
-  useEffect(() => {
-    getRandomFact().then(setFact);
-  }, []);
-
   const handleClick = async () => {
-    const newFact = await getRandomFact();
-    setFact(newFact);
+    refreshFact();
   };
 
   return (
