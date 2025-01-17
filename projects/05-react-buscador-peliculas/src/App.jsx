@@ -1,17 +1,46 @@
 import "./App.css";
 import { Movies } from "./components/Movies";
 import { useMovies } from "./hooks/useMovies";
+import { useEffect, useState } from "react";
+
+function useSearch() {
+  const [search, updateSearch] = useState("");
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    if (search === "") {
+      setError("No se puede buscar una película vacía");
+    }
+
+    if (search.match(/[^A-Za-z0-9\s]/)) {
+      setError("No se pueden introducir caracteres especiales");
+    }
+
+    if (search.length < 3) {
+      setError("La búsqueda debe tener al menos 3 caracteres");
+    }
+
+    setError(null);
+  }, [search]);
+
+  return { search, updateSearch, error };
+}
 
 function App() {
   const { movies } = useMovies();
+  const { search, updateSearch, error } = useSearch();
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
     //const fields = Object.fromEntries(new window.FormData(event.target)); -> Para recuperar los datos de un formulario con muchos inputs
-    const fields = new window.FormData(event.target);
-    const query = fields.get("query");
-    console.log(query);
+    // const fields = new window.FormData(event.target);
+    // const search = fields.get("query");
+    console.log(search);
+  };
+
+  const handleChange = (event) => {
+    updateSearch(event.target.value);
   };
 
   return (
@@ -19,9 +48,16 @@ function App() {
       <header>
         <h1>Buscador de películas</h1>
         <form className="form" onSubmit={handleSubmit}>
-          <input name="query" type="text" placeholder="Movie to Search..." />
+          <input
+            onChange={handleChange}
+            value={search}
+            name="query"
+            type="text"
+            placeholder="Movie to Search..."
+          />
           <button type="submit">Buscar</button>
         </form>
+        {error && <p style={{ color: 'red' }}>{error}</p>}
       </header>
 
       <main>
