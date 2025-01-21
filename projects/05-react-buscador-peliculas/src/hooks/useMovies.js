@@ -4,7 +4,7 @@ import { useState } from "react";
 
 export function useMovies({ search }) {
   const [responseMovies, setResponsMovies] = useState([]);
-  
+
   const movies = responseMovies.Search;
 
   const mappedMovies = movies?.map((movie) => ({
@@ -17,7 +17,11 @@ export function useMovies({ search }) {
   //Buscar las peliculas con el input
   const getMovies = () => {
     if (search) {
-      setResponsMovies(withResults);
+      fetch(`https://www.omdbapi.com/?apikey=63f446a7&s=${search}`)
+        .then(res => res.json())
+        .then(json => {
+          setResponsMovies(json);
+        })
     } else {
       setResponsMovies(withoutResults);
     }
