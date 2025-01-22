@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState, } from "react";
 import { searchMovies } from "../services/movies";
 
 export function useMovies({ search }) {
@@ -6,12 +6,21 @@ export function useMovies({ search }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  //Guardar el valor de la búsqueda anterior
+  const previousSearch = useRef(search);
+
   //Buscar las peliculas con el input
   const getMovies = async () => {
+
+    //Si la búsqueda es igual a la anterior, no se hace nada
+    if(search === previousSearch.current) return
+
     try {
       setLoading(true);
       setError(null);
 
+      //Guardamos la búsqueda actual
+      previousSearch.current = search;
       const newMovies = await searchMovies({search})
       setMovies(newMovies);
     } catch(e) {
