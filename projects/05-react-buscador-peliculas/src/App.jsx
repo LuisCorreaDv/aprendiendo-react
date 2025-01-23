@@ -46,7 +46,7 @@ function App() {
     //const fields = Object.fromEntries(new window.FormData(event.target)); -> Para recuperar los datos de un formulario con muchos inputs
     // const fields = new window.FormData(event.target);
     // const search = fields.get("query");
-    getMovies()
+    getMovies({search})
   };
 
   const handleChange = (event) => {

@@ -10,30 +10,32 @@ export function useMovies({ search, sort }) {
   const previousSearch = useRef(search);
 
   //Buscar las peliculas con el input
-  const getMovies = async () => {
+  //useMemo para que no se ejecute en cada renderizado
+  const getMovies = useMemo(() => {
+    //
+    return async ({search}) => {
+      //Si la búsqueda es igual a la anterior, no se hace nada
+      if (search === previousSearch.current) return;
 
-    //Si la búsqueda es igual a la anterior, no se hace nada
-    if(search === previousSearch.current) return
+      try {
+        setLoading(true);
+        setError(null);
 
-    try {
-      setLoading(true);
-      setError(null);
-
-      //Guardamos la búsqueda actual
-      previousSearch.current = search;
-      const newMovies = await searchMovies({search})
-      setMovies(newMovies);
-    } catch(e) {
-      setError(e.message);
-    } finally {
-      //Se ejecuta siempre, tanto si hay error como si no 
-      setLoading(false);
-    }
-    
-  };
+        //Guardamos la búsqueda actual
+        previousSearch.current = search;
+        const newMovies = await searchMovies({ search });
+        setMovies(newMovies);
+      } catch (e) {
+        setError(e.message);
+      } finally {
+        //Se ejecuta siempre, tanto si hay error como si no
+        setLoading(false);
+      }
+    };
+    //Si cambia la búsqueda, se ejecuta de nuevo
+  }, []);
 
   const sortedMovies = useMemo(() => {
-    console.log('memoSortedMovies');
 
     return sort
     ? [...movies].sort((a, b) => a.title.localeCompare(b.title))
