@@ -1,9 +1,13 @@
-import { useState } from "react";
+import { useState, useId } from "react";
 import "./Filters.css";
 
 // eslint-disable-next-line react/prop-types
 export function Filters({onChange}) {
   const [minPrice, setMinPrice] = useState(0);
+
+  // useId para generar un id unico para cada input, funciona haciendo un conteo de cuantas veces se ha llamado
+  const minPriceFilterId = useId()
+  const categoryFilterId = useId()
 
   const handleChangeMinPrice = (event) => {
     setMinPrice(event.target.value)
@@ -27,11 +31,11 @@ export function Filters({onChange}) {
   return (
     <section className="filters">
       <div>
-        <label htmlFor="price">Precio a partir de: </label>
+        <label htmlFor={minPriceFilterId}>Precio a partir de: </label>
         <input 
             type="range" 
             name="price" 
-            id="price" 
+            id={minPriceFilterId} 
             min="0" 
             max="1000" 
             onChange={handleChangeMinPrice}
@@ -39,8 +43,8 @@ export function Filters({onChange}) {
         <span>${minPrice}</span>
       </div>
       <div>
-        <label htmlFor="category">Categoria</label>
-        <select name="category" id="category" onChange={handleChangeCategory}>
+        <label htmlFor={categoryFilterId}>Categoria</label>
+        <select name="category" id={categoryFilterId} onChange={handleChangeCategory}>
           <option value="all">Todas</option>
           <option value="fragrances">Perfumes</option>
           <option value="furniture">Muebles</option>
