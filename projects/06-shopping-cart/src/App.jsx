@@ -7,7 +7,7 @@ import { useFilters } from './hooks/useFilters.js'
 
 function App() {
   const [products] = useState(initialProducts);
-  const { filters, filterProducts } = useFilters();
+  const { filterProducts } = useFilters();
 
   const filteredProducts = filterProducts(products);
 
@@ -15,7 +15,7 @@ function App() {
     <>
       <Header/>
       <Products products={filteredProducts} />
-      <Footer filters={filters}/>
+      <Footer/>
     </>
   );
 }
