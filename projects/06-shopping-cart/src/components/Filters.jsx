@@ -2,11 +2,9 @@ import { useState, useId } from "react";
 import { useFilters } from "../hooks/useFilters";
 import "./Filters.css";
 
-// eslint-disable-next-line react/prop-types
 export function Filters() {
 
   // Traer el contexto de los filtros y la funcion para actualizar los filtros
-  // eslint-disable-next-line no-undef
   const { setFilters } = useFilters()
   const [minPrice, setMinPrice] = useState(0);
 
