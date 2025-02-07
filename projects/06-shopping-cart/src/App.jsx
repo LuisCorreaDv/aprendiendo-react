@@ -11,8 +11,7 @@ function useFilters () {
   //   category: "all",
   //   minPrice: 0,
   // });
-  const filters  = useContext(FiltersContext)
-  const setFilters = () => {}
+  const {filters, setFilters}  = useContext(FiltersContext)
 
   // Función para filtrar los productos
   const filterProducts = (products) => {
