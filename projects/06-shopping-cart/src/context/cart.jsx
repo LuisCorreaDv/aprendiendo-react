@@ -8,7 +8,11 @@ export const CartContext = createContext()
 export function CartProvider ({children}) {
     const [cart, setCart] = useState([])
 
-    const addToCart = product =>{}
+    const addToCart = product =>{
+        //Forma sencilla de añadir un producto al carrito
+        setCart([...cart, product])
+    }
+
     const clearCart = () => {
         setCart([])
     }
